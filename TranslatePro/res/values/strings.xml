@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TranslatePro</string>
+    <string name="menu_settings">Settings</string>
+    <string name="btnTranslate">&gt;</string>
+    <string name="etTranslateHint">Type your text here</string>
+    <string name="switch_languages">Switch languages</string>
+
+</resources>

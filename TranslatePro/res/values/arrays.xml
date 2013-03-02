@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string-array name="languages_list">
+        <item name="албанский">sq</item>
+        <item name="английский">en</item>
+        <item name="арабский">ar</item>
+        <item name="африкаанс">af</item>
+        <item name="белорусский">be</item>
+        <item name="болгарский">bg</item>
+        <item name="валлийский">cy</item>
+        <item name="венгерский">hu</item>
+        <item name="вьетнамский">vi</item>
+        <item name="галисийский">gl</item>
+        <item name="голландский">nl</item>
+        <item name="греческий">el</item>
+        <item name="датский">da</item>
+        <item name="иврит">iw</item>
+        <item name="идиш">yi</item>
+        <item name="индонезийский">id</item>
+        <item name="ирландский">ga</item>
+        <item name="исландский">is</item>
+        <item name="испанский">es</item>
+        <item name="итальянский">it</item>
+        <item name="каталанский">ca</item>
+        <item name="китайский (традиционный)">zh-TW</item>
+        <item name="китайский (упрощенный)">zh</item>
+        <item name="корейский">ko</item>
+        <item name="креольский (Гаити)">ht</item>
+        <item name="латышский">lv</item>
+        <item name="литовский">lt</item>
+        <item name="македонский">mk</item>
+        <item name="малайский">ms</item>
+        <item name="мальтийский">mt</item>
+        <item name="немецкий">de</item>
+        <item name="норвежский">no</item>
+        <item name="персидский">fa</item>
+        <item name="польский">pl</item>
+        <item name="португальский">pt</item>
+        <item name="румынский">ro</item>
+        <item name="русский">ru</item>
+        <item name="сербский">sr</item>
+        <item name="словацкий">sk</item>
+        <item name="словенский">sl</item>
+        <item name="суахили">sw</item>
+        <item name="тагальский">tl</item>
+        <item name="тайский">th</item>
+        <item name="турецкий">tr</item>
+        <item name="украинский">uk</item>
+        <item name="финский">fi</item>
+        <item name="хинди">fr</item>
+        <item name="французский">hi</item>
+        <item name="хорватский">hr</item>
+        <item name="чешский">cs</item>
+        <item name="шведский">sv</item>
+        <item name="эсперанто">eo</item>
+        <item name="эстонский">et</item>
+        <item name="японский">ja</item>
+    </string-array>
+
+</resources>
