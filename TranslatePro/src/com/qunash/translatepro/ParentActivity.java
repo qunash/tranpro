@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import utils.PreferencesEditor;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 
 import android.support.v4.view.ViewPager;
 
-public class ParentActivity extends org.holoeverywhere.app.Activity {
+public class ParentActivity extends Activity {
 
 	public SharedPreferences mPreferences;
 	public PreferencesEditor mPrefEditor;

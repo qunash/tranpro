@@ -2,11 +2,11 @@ package com.qunash.translatepro;
 
 import android.os.Bundle;
 import android.view.View;
-import org.holoeverywhere.widget.AdapterView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import org.holoeverywhere.widget.Spinner;
-import org.holoeverywhere.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Spinner;
 
 public class LanguagesActivity extends ParentActivity {
 

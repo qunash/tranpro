@@ -9,15 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
-
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class Main extends ParentActivity {
 
@@ -131,7 +130,7 @@ public class Main extends ParentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		MenuInflater inflater = getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.mymenu, menu);
 		return super.onCreateOptionsMenu(menu); //по умолчанию возвращает true
 	}
