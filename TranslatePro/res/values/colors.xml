@@ -17,5 +17,14 @@
 -->
 
 <resources>
-    <color name="pressed_example">#CC5591eb</color>
+    <color name="white">#fff</color>
+    <color name="azure_combo_acure">#336699</color>
+    <color name="azure_combo_darker_gray">#666666</color>
+    <color name="azure_combo_lighter_gray">#999999</color>
+    <color name="azure_combo_lighter_red">#fd7979</color>
+    <color name="azure_combo_darker_red">#f44</color>
+    <color name="holo_focused_lighter_blue">#bad8ef</color>
+    <color name="holo_pressed_lighter_blue">#74b0df</color>
+    <color name="holo_focused_blue">#4a6b7b</color>
+    <color name="holo_pressed_blue">#31739c</color>
 </resources>

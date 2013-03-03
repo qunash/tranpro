@@ -6,23 +6,52 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_width="0dp"
-        android:layout_height="0dp" >
-
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listView1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp" 
-        android:layout_weight="1">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:background="@color/azure_combo_darker_gray" >
+
+        <Spinner
+            android:id="@+id/spSL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/ibSwapLanguages"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@drawable/style_ib_default_holo_light"
+            android:contentDescription="@string/ib_swap_languages"
+            android:onClick="SwapLanguages"
+            android:src="@drawable/ic_swap" />
+
+        <Spinner
+            android:id="@+id/spTL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv01"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="top"
+        android:layout_weight="1"
+        android:focusable="true" >
+    </ScrollView>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2px"
+        android:layout_height="2dp"
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
@@ -30,26 +59,41 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical" >
 
+        <ImageButton
+            android:id="@+id/ibClear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/style_ib_red_holo_light"
+            android:clickable="false"
+            android:contentDescription="@string/ib_clear"
+            android:duplicateParentState="false"
+            android:longClickable="false"
+            android:onClick="ClearText"
+            android:src="@drawable/drawable_btn_clear" />
+
         <EditText
             android:id="@+id/et01"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/etTranslateHint" >
+            android:hint="@string/et_TranslateHint" >
 
             <requestFocus />
         </EditText>
 
-        <Button
-            android:id="@+id/btn01"
+        <ImageButton
+            android:id="@+id/ibTranslate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/style_ib_white_holo_light"
+            android:clickable="false"
+            android:contentDescription="@string/ib_translate"
+            android:duplicateParentState="false"
+            android:longClickable="false"
             android:onClick="Translate"
-            style="?android:attr/progressBarStyleSmall"
-            android:text="@string/btnTranslate" />
+            android:src="@drawable/drawable_btn_go" />
 
     </LinearLayout>
-    
+
 </LinearLayout>
