@@ -19,6 +19,7 @@ public final class R {
         public static final int azure_combo_darker_red=0x7f060005;
         public static final int azure_combo_lighter_gray=0x7f060003;
         public static final int azure_combo_lighter_red=0x7f060004;
+        public static final int color_of_reverse_translation=0x7f06000a;
         public static final int holo_focused_blue=0x7f060008;
         public static final int holo_focused_lighter_blue=0x7f060006;
         public static final int holo_pressed_blue=0x7f060009;

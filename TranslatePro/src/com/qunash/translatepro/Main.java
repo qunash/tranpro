@@ -1,5 +1,6 @@
 package com.qunash.translatepro;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import utils.TransAsyncTask;
@@ -11,6 +12,7 @@ import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +30,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class Main extends ParentActivity {
 
-	//private static String LOG_TAG = "TranslatePro";
+	private static String TAG = "TranslatePro";
 	
 	
 	EditText et01 = null;
@@ -48,42 +50,13 @@ public class Main extends ParentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-//		//****************//
-//		//TEST
-//		
-//		LayoutInflater inflater = LayoutInflater.from(this);
-//        pages = new ArrayList<View>();
-//        
-//        View page = inflater.inflate(R.layout.languages_activity, null);
-//        pages.add(page);
-//        
-//        page = inflater.inflate(R.layout.main, null);
-//        et01 = (EditText) page.findViewById(R.id.et01);
-//		tv01 = (TextView) page.findViewById(R.id.tv01);
-//		ibTranslate = (Button) page.findViewById(R.id.btn01);
-//		
-//		Typeface tf = Typeface.createFromAsset(getAssets(), "SegoeWP-Semilight.ttf");
-//		tv01.setTypeface(tf);
-//        pages.add(page);
-//        
-//        SamplePagerAdapter pagerAdapter = new SamplePagerAdapter(pages);
-//        viewPager = new ViewPager(this);
-//        viewPager.setAdapter(pagerAdapter);
-//        viewPager.setCurrentItem(1);     
-//        
-//        viewPager.setOnPageChangeListener(new ViewPagerListener());
-//
-//        setContentView(viewPager);
-//		
-//		//****************//
-		
 		setContentView(R.layout.main);
 
 		ibClear = (ImageButton) findViewById(R.id.ibClear);
-		ibClear.setEnabled(false); //TODO remove this hardcode (for some reason, isEnabled() of this imageButton = "true" even isClickable set to "false")
+		ibClear.setEnabled(false); //TODO remove this hardcode (for some reason, isEnabled() of this imageButton = "true" even though isClickable set to "false")
 		
 		ibTranslate = (ImageButton) findViewById(R.id.ibTranslate);
-		ibTranslate.setEnabled(false); //TODO remove this hardcode (for some reason this imageButton isEnabled() = "true" even isClickable set to "false")
+		ibTranslate.setEnabled(false); //TODO remove this hardcode (for some reason this imageButton isEnabled() = "true" even though isClickable set to "false")
 		
 		et01 = (EditText) findViewById(R.id.et01);
 		et01.addTextChangedListener(new TextWatcher() {
@@ -149,13 +122,13 @@ public class Main extends ParentActivity {
 			
 			switch (parent.getId()) {
 			case R.id.spSL:
-				String sl = parent.getItemAtPosition(position).toString();	
+				sl = parent.getItemAtPosition(position).toString();	
 				
 				mPrefEditor.set("sl", sl);
 				break;
 			
 			case R.id.spTL:
-				String tl = parent.getItemAtPosition(position).toString();	
+				tl = parent.getItemAtPosition(position).toString();	
 				
 				mPrefEditor.set("tl", tl);
 				break;
@@ -169,7 +142,6 @@ public class Main extends ParentActivity {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) {
-
 		}
 
 	}
@@ -194,6 +166,7 @@ public class Main extends ParentActivity {
 	public void ClearText(View view) {
 		et01.setText("");
 	}
+	
 	public void Translate(View view) {
 		
 		// Check internet connection
@@ -210,37 +183,41 @@ public class Main extends ParentActivity {
 		
 		String strInput = et01.getText().toString();
 		
-		if (strInput.equals("")) {
+		if (("").equals(strInput)) {
 			return;
 		}
 		
 		try {
-			
-			String URLstring;
-			
 			strInput = URLEncoder.encode(strInput, "UTF-8");
-			
-			URLstring = "http://translate.google.com/translate_a/t?client=p&text=";
-			URLstring += strInput;
-			URLstring += "&hl=" + tl;
-			URLstring += "&sl=" + sl;
-			URLstring += "&tl=" + tl;
-			
-			TransAsyncTask transAsyncTask = new TransAsyncTask();
-			transAsyncTask.execute(URLstring);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			Log.d(TAG, e.toString());
 		}
-		
+
+		TransAsyncTask transAsyncTask = new TransAsyncTask();
+		transAsyncTask.execute(strInput, sl, tl);
+
 	}
 	
-	public static void showResult(String output) {
+	public static void showResult(Translation trans) {
 		
 		// reactivate button
 		ibTranslate.setEnabled(true);
 		
-		tv01.setText(Html.fromHtml(output));
+		String Output="";
+		Output += trans.sl;
+		Output += "\n" + trans.input;
+		Output += "\n" + trans.sTranslit;
+		Output += "\n" + trans.output;
+		Output += "\n" + trans.tTranslit;
+		if (trans.hasDictionary) {
+			Output += "\n" + Html.fromHtml(trans.dictionary);
+		}
+		
+		tv01.setText(Output);
+		
+//		tv01.setText(Html.fromHtml(output)); TODO
+		
+		
 		
 		sv01.fullScroll(ScrollView.FOCUS_UP);
 	}
@@ -251,7 +228,7 @@ public class Main extends ParentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.mymenu, menu);
-		return super.onCreateOptionsMenu(menu); //по умолчанию возвращает true
+		return super.onCreateOptionsMenu(menu);
 	}
 
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,8 +1,5 @@
 package com.qunash.translatepro;
 
-import java.util.List;
-import java.util.Locale;
-
 import utils.PreferencesEditor;
 
 import android.app.Activity;
@@ -11,26 +8,25 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.Toast;
-
-import android.support.v4.view.ViewPager;
 
 public class ParentActivity extends Activity {
 
 	public SharedPreferences mPreferences;
 	public PreferencesEditor mPrefEditor;
-	public final static String mCurrentLanguage = Locale.getDefault().getLanguage();
-	public ViewPager viewPager = null;
-	public List<View> pages;
+	public static String mCurrentLanguage = null;
 	
+	TransApp app;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		mPrefEditor = new PreferencesEditor(mPreferences);
+		app = ((TransApp)getApplication());
+		
+		mPreferences = app.mPreferences;
+		mPrefEditor = app.mPrefEditor;
+		mCurrentLanguage = TransApp.mCurrentLanguage;
 		
 	}
 	

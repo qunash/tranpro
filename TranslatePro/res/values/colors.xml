@@ -27,4 +27,6 @@
     <color name="holo_pressed_lighter_blue">#74b0df</color>
     <color name="holo_focused_blue">#4a6b7b</color>
     <color name="holo_pressed_blue">#31739c</color>
+    
+    <color name="color_of_reverse_translation">#C0C0C0</color>
 </resources>
