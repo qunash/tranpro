@@ -183,26 +183,30 @@ public final class R {
         public static final int textfield_focused_holo_light=0x7f020099;
     }
     public static final class id {
-        public static final int et01=0x7f090008;
-        public static final int ibClear=0x7f090007;
-        public static final int ibSwapLanguages=0x7f090003;
-        public static final int ibTranslate=0x7f090009;
-        public static final int menu_settings=0x7f09000a;
-        public static final int spSL=0x7f090002;
-        public static final int spTL=0x7f090004;
-        public static final int sv01=0x7f090005;
-        public static final int tv01=0x7f090006;
-        public static final int tvLanguageName=0x7f090000;
-        public static final int tvSourcePhrase=0x7f090001;
+        public static final int et01=0x7f09000b;
+        public static final int ibClear=0x7f09000a;
+        public static final int ibSwapLanguages=0x7f090006;
+        public static final int ibTranslate=0x7f09000c;
+        public static final int menu_settings=0x7f09000d;
+        public static final int parentLayout=0x7f090004;
+        public static final int progressBar1=0x7f090001;
+        public static final int spSL=0x7f090005;
+        public static final int spTL=0x7f090007;
+        public static final int sv01=0x7f090008;
+        public static final int textView1=0x7f090000;
+        public static final int tv01=0x7f090009;
+        public static final int tvLanguageName=0x7f090002;
+        public static final int tvSourcePhrase=0x7f090003;
     }
     public static final class layout {
-        public static final int layout_divider=0x7f030000;
-        public static final int layout_language_name=0x7f030001;
-        public static final int layout_source_phrase=0x7f030002;
-        public static final int layout_speak_button=0x7f030003;
-        public static final int layout_star=0x7f030004;
-        public static final int main=0x7f030005;
-        public static final int test=0x7f030006;
+        public static final int init=0x7f030000;
+        public static final int layout_divider=0x7f030001;
+        public static final int layout_language_name=0x7f030002;
+        public static final int layout_source_phrase=0x7f030003;
+        public static final int layout_speak_button=0x7f030004;
+        public static final int layout_star=0x7f030005;
+        public static final int main=0x7f030006;
+        public static final int test=0x7f030007;
     }
     public static final class menu {
         public static final int mymenu=0x7f080000;
@@ -214,6 +218,7 @@ public final class R {
         public static final int ib_speak=0x7f070007;
         public static final int ib_swap_languages=0x7f070003;
         public static final int ib_translate=0x7f070004;
+        public static final int initializing=0x7f070008;
         public static final int menu_settings=0x7f070001;
         public static final int settings=0x7f070006;
     }

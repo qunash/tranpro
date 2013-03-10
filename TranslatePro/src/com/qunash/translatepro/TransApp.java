@@ -9,8 +9,8 @@ import android.preference.PreferenceManager;
 
 public class TransApp extends Application {
 
-	public SharedPreferences mPreferences;
-	public PreferencesEditor mPrefEditor;
+	public static SharedPreferences mPreferences;
+	public static PreferencesEditor mPrefEditor;
 	public final static String mCurrentLanguage = Locale.getDefault().getLanguage();
 	
 	@Override
@@ -22,6 +22,4 @@ public class TransApp extends Application {
 		
 	}
 	
-	
-
 }

@@ -9,5 +9,6 @@
     <string name="ib_clear">Clear typed text</string>
 	<string name="settings">Settings</string>
 	<string name="ib_speak">Speak</string>
+	<string name="initializing">Initializing...</string>
     
 </resources>

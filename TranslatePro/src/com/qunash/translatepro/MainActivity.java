@@ -1,37 +1,37 @@
 package com.qunash.translatepro;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import utils.TransAsyncTask;
+import translation.TransAsyncTask;
+import translation.Translation;
 
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnKeyListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class Main extends ParentActivity {
+public class MainActivity extends ParentActivity {
 
 	private static String TAG = "TranslatePro";
-	
 	
 	EditText et01 = null;
 	static ScrollView sv01 = null;
@@ -41,7 +41,8 @@ public class Main extends ParentActivity {
 	Spinner spTL;
 	ImageButton ibSwapLanguages;
 	ImageButton ibClear;
-	ArrayAdapter<CharSequence> adapter;
+	ArrayAdapter<String> spSLadapter;
+	ArrayAdapter<String> spTLadapter;
 	
 	String sl;
 	String tl;
@@ -50,8 +51,20 @@ public class Main extends ParentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.main);
+		makeToast("Initialized = " + GlobalManager.initialized);
+		
+		if (!GlobalManager.initialized) {
+			startActivity(new Intent(this, InitActivity.class));
+		}
 
+		setContentView(R.layout.main);
+		initializeUI();
+
+//		makeToast(TAG + " onCreate");
+	}
+	
+	private void initializeUI(){
+		
 		ibClear = (ImageButton) findViewById(R.id.ibClear);
 		ibClear.setEnabled(false); //TODO remove this hardcode (for some reason, isEnabled() of this imageButton = "true" even though isClickable set to "false")
 		
@@ -98,23 +111,71 @@ public class Main extends ParentActivity {
 		spTL = (Spinner) findViewById(R.id.spTL);
 		ibSwapLanguages = (ImageButton) findViewById(R.id.ibSwapLanguages);
 		
+		spSLadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, GlobalManager.mFROMLangsArray);
+		spSLadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
-		adapter = ArrayAdapter.createFromResource(this, R.array.languages_list, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spTLadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, GlobalManager.mTOLangsArray);
+		spTLadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
-		sl = mPreferences.getString("sl", adapter.getPosition(mCurrentLanguage)>-1 ? mCurrentLanguage : "en");
-		tl = mPreferences.getString("tl", "en");
+		sl = mPreferences.getString("sl", GlobalManager.mFROMLangsArray[0]);
+		tl = mPreferences.getString("tl", GlobalManager.mTOLangsArray[0]);
 		
-		spSL.setAdapter(adapter);
-		spSL.setSelection(adapter.getPosition(sl));
+		spSL.setAdapter(spSLadapter);
+		spSL.setSelection(spSLadapter.getPosition(sl));
 		spSL.setOnItemSelectedListener(new listener());
 		
-		spTL.setAdapter(adapter);
-		spTL.setSelection(adapter.getPosition(tl));
+		spTL.setAdapter(spTLadapter);
+		spTL.setSelection(spTLadapter.getPosition(tl));
 		spTL.setOnItemSelectedListener(new listener());
+		
+		LinearLayout parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
+		parentLayout.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+				return false;
+			}
+		});
 		
 	}
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+//		makeToast(TAG + " onDestroy");
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+//		makeToast(TAG + " onStart");
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+//		makeToast(TAG + " onStop");
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+//		makeToast(TAG + " onPause");
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+//		makeToast(TAG + " onRestart");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+//		makeToast(TAG + " onResume");
+	}
+
 	public class listener implements OnItemSelectedListener {
 
 		@Override
@@ -122,13 +183,13 @@ public class Main extends ParentActivity {
 			
 			switch (parent.getId()) {
 			case R.id.spSL:
-				sl = parent.getItemAtPosition(position).toString();	
+				sl = (String) parent.getItemAtPosition(position);	
 				
 				mPrefEditor.set("sl", sl);
 				break;
 			
 			case R.id.spTL:
-				tl = parent.getItemAtPosition(position).toString();	
+				tl = (String) parent.getItemAtPosition(position);	
 				
 				mPrefEditor.set("tl", tl);
 				break;
@@ -136,7 +197,6 @@ public class Main extends ParentActivity {
 			default:
 				break;
 			}
-			
 			
 		}
 
@@ -155,8 +215,8 @@ public class Main extends ParentActivity {
 		
 		buffer = null;
 		
-		spSL.setSelection(adapter.getPosition(sl));
-		spTL.setSelection(adapter.getPosition(tl));
+		spSL.setSelection(spSLadapter.getPosition(sl));
+		spTL.setSelection(spTLadapter.getPosition(tl));
 
 		mPrefEditor.set("sl", sl);
 		mPrefEditor.set("tl", tl);
@@ -171,28 +231,23 @@ public class Main extends ParentActivity {
 		
 		// Check internet connection
 		if (!hasConnection()) {
-			makeToast("Network error. Check your internet connection!");
+			makeToast("Network error.\n Check your internet connection!");
 			return;
 		}
-		
-		// make button inactive
-		ibTranslate.setEnabled(false);
-		
-		String tl = mPreferences.getString("tl", "");
-		String sl = mPreferences.getString("sl", "");
 		
 		String strInput = et01.getText().toString();
 		
 		if (("").equals(strInput)) {
 			return;
 		}
-		
-		try {
-			strInput = URLEncoder.encode(strInput, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.d(TAG, e.toString());
-		}
 
+		// make button inactive
+		ibTranslate.setEnabled(false);
+		
+		String tl = GlobalManager.mFROMLangsHashMap.get(mPreferences.getString("tl", ""));
+		String sl = GlobalManager.mTOLangsHashMap.get(mPreferences.getString("sl", ""));
+		
+		
 		TransAsyncTask transAsyncTask = new TransAsyncTask();
 		transAsyncTask.execute(strInput, sl, tl);
 
@@ -216,8 +271,6 @@ public class Main extends ParentActivity {
 		tv01.setText(Output);
 		
 //		tv01.setText(Html.fromHtml(output)); TODO
-		
-		
 		
 		sv01.fullScroll(ScrollView.FOCUS_UP);
 	}
@@ -245,9 +298,19 @@ public class Main extends ParentActivity {
     	
     	return super.onOptionsItemSelected(item);
       }
-	
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        //Ловить момент когда открыли или закрыли реальную клавиатуру НЕ ПАШЕТ
+        if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+           makeToast("Keyboard opened");
+        }
+        else if(newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+        	makeToast("Keyboard hidden");
+        }
     
-    
-	
+	}
 	
 }

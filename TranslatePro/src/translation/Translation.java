@@ -1,10 +1,12 @@
-package com.qunash.translatepro;
+package translation;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
+/** Translation class (converted from JSONObject)*/
 public class Translation {
 
 	private final static String TAG = "Translation class";
@@ -19,18 +21,29 @@ public class Translation {
 	public boolean hasDictionary = false;
 	public String dictionary;
 
+	public Translation() {
+		
+	}
+	
 	/**
 	 * Converts from JSONObject to Translate object
 	 * 
 	 * @param jsonObj
 	 *            JSONObject to parse
+	 * @throws JSONException 
 	 */
-	public Translation getTranslation(JSONObject jsonObj) {
-		return getTranslation(jsonObj, false, true);
+	public void JSONToTranslation(JSONObject mJSONObject) throws JSONException {
+		
+		if (mJSONObject == null) {
+			return;
+		}
+		
+		this.getTranslation(mJSONObject, true);
+		
 	}
-
+	
 	/**
-	 * Converts from JSONObject to Translate object
+	 * creates Translate object from JSONObject 
 	 * 
 	 * @param jsonObj
 	 *            JSONObject to parse
@@ -38,18 +51,28 @@ public class Translation {
 	 *            translation used auto detection of source language
 	 * @param includeRevTrans
 	 *            include reverse translations
+	 * @throws JSONException 
 	 * 
 	 */
-	public Translation getTranslation(JSONObject jsonObj, Boolean auto_detection, boolean includeRevTrans) {
+	public void getTranslation(JSONObject jsonObj, boolean includeRevTrans) throws JSONException {
 
 		if (jsonObj == null) {
-			return null;
+			return;
 		}
 
-		Translation trans = new Translation();
+		// Source language		
+		this.sl = (String) jsonObj.opt("src");
 
-		trans.auto_detect = auto_detect;
-		trans.sl = (String) jsonObj.opt("src");
+//		//гугл добавил JSONObject ld_result с автоопределенными языками, не знаю зачем, но может пригодиться
+//		JSONObject langDetectionResult = jsonObj.optJSONObject("ld_result");
+//
+//		if (langDetectionResult != null) {
+//			JSONArray detectedSourceLangs = jsonObj.optJSONArray("srclangs");
+//
+//			if (detectedSourceLangs != null && detectedSourceLangs.length() > 0) {
+//				this.sl = detectedSourceLangs.getString(0);
+//			}
+//		}
 
 		try {
 
@@ -62,10 +85,10 @@ public class Translation {
 					JSONObject entry = sentences.getJSONObject(i);
 
 					// now get the data from each entry
-					trans.input = entry.get("orig").toString();
-					trans.output = entry.get("trans").toString();
-					trans.sTranslit = entry.get("src_translit").toString();
-					trans.tTranslit = entry.get("translit").toString();
+					this.input = entry.get("orig").toString();
+					this.output = entry.get("trans").toString();
+					this.sTranslit = entry.get("src_translit").toString();
+					this.tTranslit = entry.get("translit").toString();
 					
 				}
 			}
@@ -80,18 +103,19 @@ public class Translation {
 
 			if (dictionary != null) {
 
-				trans.hasDictionary = true;
+				this.hasDictionary = true;
+				this.dictionary = "";
 
 				for (int i = 0; i < dictionary.length(); i++) {
 					JSONObject entry = dictionary.getJSONObject(i);
 
 					if (i > 0) {
-						trans.dictionary += "<br /> <br />";
+						this.dictionary += "<br /> <br />";
 					}
 
 					// Part of speech
 					String pos = entry.get("pos").toString();
-					trans.dictionary += "<b>" + pos + "</b>";
+					this.dictionary += "<b>" + pos + "</b>";
 
 					// Terms
 					if (!includeRevTrans) {
@@ -99,7 +123,7 @@ public class Translation {
 						JSONArray terms = entry.optJSONArray("terms");
 						for (int j = 0; j < terms.length(); j++) {
 							String term = terms.getString(j);
-							trans.dictionary += j+1 + ". " + term + "<br />";
+							this.dictionary += j+1 + ". " + term + "<br />";
 						}
 
 					} else {
@@ -114,27 +138,30 @@ public class Translation {
 								break;
 							}
 
-							trans.dictionary += "<br /> ";
+							this.dictionary += "<br /> ";
 
 							String word = entry1.getString("word");
 
-							trans.dictionary += j+1 + ". " + word;
+							this.dictionary += j+1 + ". " + word;
 
 							JSONArray reverseTranslations = entry1.optJSONArray("reverse_translation");
 							
 							if (null != reverseTranslations) {
 
-								for (int k = 0; k < reverseTranslations.length(); k++) {
-
-									if (k == 0) {
-										trans.dictionary += " ";
-									} else {
-										trans.dictionary += ", ";
-									}
-
-									String rt = reverseTranslations.getString(k);
-									trans.dictionary += "<font color=\"#C0C0C0\">" + rt + "</font>";
-								}
+								//for (int k = 0; k < reverseTranslations.length(); k++) {
+								//
+								//	if (k == 0) {
+								//		this.dictionary += " ";
+								//} else {
+								//	this.dictionary += ", ";
+								//}
+								//
+								//String rt = reverseTranslations.getString(k);
+								//this.dictionary += "<font color=\"#C0C0C0\">" + rt + "</font>";
+								//}
+								
+								//так намного быстрей
+								this.dictionary += " <font color=\"#C0C0C0\">" + reverseTranslations.join(", ").replaceAll("\"", "") + "</font>";
 
 							}
 						}
@@ -146,7 +173,5 @@ public class Translation {
 		} catch (Exception e) {
 			Log.e(TAG, "error on \"dict\" part of JSON");
 		}
-
-		return trans;
 	}
 }
